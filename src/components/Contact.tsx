@@ -1,4 +1,8 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 export default function Contact() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-20 px-8 bg-gray-50">
       <div className="max-w-[1600px] mx-auto">
@@ -22,16 +26,18 @@ export default function Contact() {
               />
             </div>
             <h2 className="text-4xl font-light text-white mb-6">
-              Speak with our property<br />consultants
+              {t('contact.title').split('\n').map((line, i) => (
+                <span key={i}>{line}<br /></span>
+              ))}
             </h2>
             <p className="text-gray-300 leading-relaxed text-lg">
-              With years of real estate experience, our team will guide you through every step of the home buying process.
+              {t('contact.desc')}
             </p>
           </div>
 
           <div>
             <button className="w-full bg-white text-black px-8 py-5 rounded-xl font-medium hover:bg-gray-100 transition-colors text-lg">
-              Contact us
+              {t('contact.button')}
             </button>
           </div>
         </div>

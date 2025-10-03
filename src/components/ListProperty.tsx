@@ -1,15 +1,19 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 export default function ListProperty() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-20 px-8">
       <div className="max-w-[1600px] mx-auto">
         <div className="grid grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl font-light mb-6">List your property</h2>
+            <h2 className="text-4xl font-light mb-6">{t('listProperty.title')}</h2>
             <p className="text-gray-600 leading-relaxed mb-8 text-lg">
-              Every Huspy listing gets a professional photo and video shoot along with with top placements on property portals so you can reach more people globally.
+              {t('listProperty.desc')}
             </p>
             <button className="bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800 transition-colors">
-              List your property
+              {t('listProperty.button')}
             </button>
           </div>
 

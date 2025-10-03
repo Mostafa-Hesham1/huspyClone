@@ -1,72 +1,115 @@
 import { ArrowUpRight } from 'lucide-react';
-import TestimonialBubble from './TestimonialBubble';
+import { useLanguage } from '../contexts/LanguageContext';
+import buildingVideo from '../assets/videos/building.mp4';
 
 export default function Hero() {
+  const { t, language } = useLanguage();
+  const isRTL = language === 'ar';
+
   return (
-    <section className="pt-24 pb-16 px-8">
-      <div className="max-w-[1600px] mx-auto">
-        <div className="relative rounded-3xl overflow-hidden" style={{ height: '600px' }}>
-          <video
-            loop
-            muted
-            autoPlay
-            playsInline
-            style={{
-              objectFit: 'cover',
-              width: '100%',
-              height: '100%',
-              borderRadius: '0px',
-              transform: 'scale(1.01)'
-            }}
-            src="https://images.pexels.com/videos/3129957/free-video-3129957.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            poster="https://images.pexels.com/photos/936722/pexels-photo-936722.jpeg?auto=compress&cs=tinysrgb&w=1920"
-          />
+    <section className="pt-20 pb-32 px-12">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="relative">
+          {/* Video Container with L-shaped cut on bottom-right (flipped for RTL) */}
+          <div className="relative overflow-hidden" style={{ 
+            borderRadius: '32px',
+            height: '500px',
+            clipPath: isRTL 
+              ? 'polygon(0 0, 100% 0, 100% 100%, 35% 100%, 35% 75%, 0 75%)' // L-shape flipped for RTL (bottom-left cut)
+              : 'polygon(0 0, 100% 0, 100% 75%, 65% 75%, 65% 100%, 0 100%)' // Original L-shape (bottom-right cut)
+          }}>
+            <video
+              loop
+              muted
+              autoPlay
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ transform: 'scale(1.01)' }}
+            >
+              <source src={buildingVideo} type="video/mp4" />
+            </video>
 
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+            {/* Gradient Overlay */}
+            <div className={`absolute inset-0 ${isRTL ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-black/40 to-transparent`} />
 
-          <div className="absolute top-12 left-12 max-w-xl z-10">
-            <h1 className="text-7xl font-light text-white leading-tight mb-8">
-              Home buying,<br />
-              made simple
-            </h1>
-          </div>
-
-          <TestimonialBubble
-            text="Dealing with Huspy was truly a 5-star experience! From day one right until the end, the customer service and support was amazing.."
-            author="Claire D"
-            rating={5}
-            className="absolute top-[45%] right-32 max-w-md"
-          />
-
-          <TestimonialBubble
-            text="I would like to thank Huspy for their professional expertise in guiding a new home buyer and getting the best financing for myself.."
-            author="Rene M"
-            rating={5}
-            className="absolute bottom-24 left-32 max-w-md"
-          />
-
-          <div className="absolute bottom-8 left-12 flex items-center gap-8">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Forbes_logo.svg/320px-Forbes_logo.svg.png" alt="Forbes" className="h-6 opacity-80" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Fast_Company_logo.svg/320px-Fast_Company_logo.svg.png" alt="Fast Company" className="h-5 opacity-80" />
-            <span className="text-white text-lg font-medium opacity-90">Entrepreneur</span>
-          </div>
-
-          <div className="absolute bottom-8 right-8 flex gap-4">
-            <div className="bg-white rounded-2xl p-6 w-80 hover:shadow-2xl transition-shadow cursor-pointer group">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold">Mortgages</h3>
-                <ArrowUpRight className="w-6 h-6 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-              </div>
-              <p className="text-gray-600 text-sm">Find a mortgage rate that fits your needs.</p>
+            {/* Title - Left side for LTR, Right side for RTL */}
+            <div className={`absolute ${isRTL ? 'right-16' : 'left-16'} top-[35%] -translate-y-1/2 z-10`}>
+              <svg viewBox="0 0 23 23" className="absolute -top-6 -left-6 w-6 h-6 text-transparent" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              <svg viewBox="0 0 23 23" className="absolute -top-6 -right-6 w-6 h-6 text-transparent" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              <h1 className={`text-[68px] font-light text-white leading-[1.1] ${isRTL ? 'text-right' : 'text-left'}`} style={{ fontFamily: isRTL ? 'Cairo, sans-serif' : 'Georgia, serif' }}>
+                {t('hero.title').split('\n')[0]}
+              </h1>
+              <h1 className={`text-[68px] font-light text-white leading-[1.1] ${isRTL ? 'text-right' : 'text-left'}`} style={{ fontFamily: isRTL ? 'Cairo, sans-serif' : 'Georgia, serif' }}>
+                {t('hero.title').split('\n')[1]}
+              </h1>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 w-80 hover:shadow-2xl transition-shadow cursor-pointer group">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold">Properties</h3>
-                <ArrowUpRight className="w-6 h-6 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-              </div>
-              <p className="text-gray-600 text-sm">Find top properties, from off-plan to move-in ready.</p>
+            {/* Logos - Bottom Left for LTR, Bottom Right for RTL */}
+            <div className={`absolute bottom-10 ${isRTL ? 'right-16' : 'left-16'} z-20`}>
+              <svg viewBox="0 0 23 23" className="absolute top-0 left-0 w-6 h-6 text-transparent" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              <svg viewBox="0 0 23 23" className="absolute top-0 right-0 w-6 h-6 text-transparent" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              <img 
+                src="https://a.storyblok.com/f/165304/388x24/682aeb62b9/featured_logos.png" 
+                alt="Featured in Forbes, Fast Company, Entrepreneur" 
+                className="h-6"
+                style={{ maxWidth: '400px' }}
+              />
             </div>
+          </div>
+
+          {/* CTA Cards - Positioned in the L-shaped cut (right for LTR, left for RTL) */}
+          <div className={`absolute bottom-0 ${isRTL ? 'left-0' : 'right-0'} flex gap-3`} style={{ width: '35%' }}>
+            {/* Mortgages Card */}
+            <a href="#mortgages" className="relative bg-white overflow-hidden group cursor-pointer shadow-lg hover:shadow-xl transition-all flex-1" style={{ borderRadius: '20px', padding: '28px 32px', height: '125px' }}>
+              {/* Curved corner - Top Left */}
+              <svg viewBox="0 0 23 23" className="absolute top-0 left-0 w-6 h-6 text-[#f5f5f5]" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              {/* Curved corner - Top Right */}
+              <svg viewBox="0 0 23 23" className="absolute top-0 right-0 w-6 h-6 text-[#f5f5f5]" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              
+              <div className="flex flex-col h-full">
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="text-xl font-normal text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>{t('hero.mortgages')}</h3>
+                  <div className="flex-shrink-0 transform rotate-45">
+                    <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-gray-900 transition-colors" />
+                  </div>
+                </div>
+                <p className="text-gray-500 text-xs leading-relaxed">{t('hero.mortgagesDesc')}</p>
+              </div>
+            </a>
+
+            {/* Properties Card */}
+            <a href="#properties" className="relative bg-white overflow-hidden group cursor-pointer shadow-lg hover:shadow-xl transition-all flex-1" style={{ borderRadius: '20px', padding: '28px 32px', height: '125px' }}>
+              {/* Curved corner - Top Left */}
+              <svg viewBox="0 0 23 23" className="absolute top-0 left-0 w-6 h-6 text-[#f5f5f5]" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              {/* Curved corner - Top Right */}
+              <svg viewBox="0 0 23 23" className="absolute top-0 right-0 w-6 h-6 text-[#f5f5f5]" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'scaleX(-1)' }}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M0 23H23C10.2975 23 0 12.7025 0 0V23Z" fill="currentColor" />
+              </svg>
+              
+              <div className="flex flex-col h-full">
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="text-xl font-normal text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>{t('hero.properties')}</h3>
+                  <div className="flex-shrink-0 transform rotate-45">
+                    <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-gray-900 transition-colors" />
+                  </div>
+                </div>
+                <p className="text-gray-500 text-xs leading-relaxed">{t('hero.propertiesDesc')}</p>
+              </div>
+            </a>
           </div>
         </div>
       </div>

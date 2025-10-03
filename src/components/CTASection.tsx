@@ -1,4 +1,8 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 export default function CTASection() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-20 px-8">
       <div className="max-w-[1400px] mx-auto">
@@ -6,14 +10,15 @@ export default function CTASection() {
           <div className="grid grid-cols-2 items-center">
             <div className="p-16">
               <h2 className="text-4xl font-light mb-4">
-                Why wait 2 months?<br />
-                Get a mortgage in 2 weeks
+                {t('cta.title').split('\n').map((line, i) => (
+                  <span key={i}>{line}<br /></span>
+                ))}
               </h2>
               <p className="text-gray-700 mb-8 leading-relaxed">
-                With Huspy, you don't need to wait 2 months to get a mortgage. Skip the line with a Huspy mortgage fast pass for selected leading banks.
+                {t('cta.desc')}
               </p>
               <button className="bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800 transition-colors">
-                Learn more
+                {t('cta.button')}
               </button>
             </div>
             <div className="h-full">
